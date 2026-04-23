@@ -3,44 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rio Galaxian — Sapo e moscas (WebGL)</title>
+    <title>Rio Galaxian — Seleção de Modo</title>
     <style>
         body {
             margin: 0;
-            background: #1a1a1a;
+            background: #0d1b2a;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            font-family: Segoe UI, system-ui, sans-serif;
-        }
-        #wrap {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: white;
+            text-align: center;
+            overflow: hidden;
             position: relative;
-            width: 800px;
-            height: 600px;
-            box-shadow: 0 0 0 2px #fff, 0 8px 32px rgba(0,0,0,0.5);
         }
-        #gameCanvas {
-            display: block;
-            width: 800px;
-            height: 600px;
-        }
-        #hudCanvas {
+
+        /* --- Background Decor --- */
+        .water-bg {
             position: absolute;
-            left: 0;
-            top: 0;
-            width: 800px;
-            height: 600px;
-            pointer-events: none;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, #1a4a6e 0%, #0d3a52 100%);
+            z-index: -2;
+        }
+
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.03) 41px);
+            animation: waveMove 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes waveMove {
+            from { transform: translateY(0); }
+            to { transform: translateY(-40px); }
+        }
+
+        /*Sapo decorativo*/
+        .decor-frog {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 100px;
+            background: linear-gradient(to bottom, #5cb85c, #2d6a2d);
+            border-radius: 50% 50% 40% 40%;
+            z-index: 1;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+            animation: frogBreathe 3s ease-in-out infinite;
+        }
+        .decor-frog::before, .decor-frog::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: #111;
+            border-radius: 50%;
+        }
+        .decor-frog::before { left: 25px; }
+        .decor-frog::after { right: 25px; }
+
+        @keyframes frogBreathe {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05, 0.95); }
+        }
+
+        /*Moscas que decorativas, quase tudo reaproveitado*/
+        .fly {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            background: #4a4a4a;
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .fly::before, .fly::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            width: 15px;
+            height: 10px;
+            background: rgba(180,180,200,0.6);
+            border-radius: 50%;
+            animation: wingFlap 0.1s linear infinite;
+        }
+        .fly::before { left: -5px; transform-origin: right; }
+        .fly::after { right: -5px; transform-origin: left; }
+
+        @keyframes wingFlap {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(20deg); }
+        }
+
+        .fly:nth-child(1) { top: 15%; left: 15%; animation: flyFloat 6s ease-in-out infinite; }
+        .fly:nth-child(2) { top: 25%; right: 10%; animation: flyFloat 8s ease-in-out infinite reverse; }
+        .fly:nth-child(3) { top: 60%; left: 10%; animation: flyFloat 7s ease-in-out infinite 1s; }
+        .fly:nth-child(4) { top: 10%; right: 30%; animation: flyFloat 5s ease-in-out infinite 0.5s; }
+
+        @keyframes flyFloat {
+            0%, 100% { transform: translate(0, 0) rotate(5deg); }
+            33% { transform: translate(30px, -20px) rotate(-5deg); }
+            66% { transform: translate(-20px, 15px) rotate(10deg); }
+        }
+
+        /* --- Main UI --- */
+        .container {
+            background: rgba(34, 34, 34, 0.85);
+            padding: 3.5rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+            border: 2px solid #5cb85c;
+            max-width: 500px;
+            width: 90%;
+            z-index: 10;
+            position: relative;
+        }
+        h1 { 
+            color: #5cb85c; 
+            margin: 0;
+            font-size: 3.5rem;
+            letter-spacing: 4px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .subtitle {
+            color: #8fd98f;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            display: block;
+        }
+        .buttons { 
+            display: flex; 
+            flex-direction: column;
+            gap: 1.5rem; 
+        }
+        a {
+            display: block;
+            padding: 1.2rem;
+            text-decoration: none;
+            color: white;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-normal { 
+            background: #2d6a2d; 
+            border: 2px solid #5cb85c;
+        }
+        .btn-normal:hover { 
+            background: #5cb85c;
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(92, 184, 92, 0.5);
+        }
+        .btn-hardcore { 
+            background: #7a2a2a; 
+            border: 2px solid #ff5555;
+        }
+        .btn-hardcore:hover { 
+            background: #ff5555;
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 85, 85, 0.5);
+        }
+        .footer {
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            color: #888;
+            border-top: 1px solid #444;
+            padding-top: 1.5rem;
         }
     </style>
 </head>
 <body>
-    <div id="wrap">
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
-        <canvas id="hudCanvas" width="800" height="600"></canvas>
+    <div class="water-bg"></div>
+    <div class="wave"></div>
+    
+    <!-- Elementos -->
+    <div class="fly"></div>
+    <div class="fly"></div>
+    <div class="decor-frog"></div>
+
+    <div class="container">
+        <h1>RIO GALAXIAN</h1>
+        <span class="subtitle">Aventura no Pântano</span>
+        <div class="buttons">
+            <!-- Botões para a seleção de jogo -->
+            <a href="normal/index.html" class="btn-normal">Modo Normal</a>
+            <a href="hardcore/index.html" class="btn-hardcore">Modo Hardcore</a>
+        </div>
+        <div class="footer">
+            &copy; 2026 Gustavo França | Computação Gráfica
+        </div>
     </div>
-    <script src="js/webgl.js"></script>
-    <script src="js/game.js"></script>
 </body>
 </html>

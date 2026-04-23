@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rio Galaxian — Sapo e moscas (WebGL)</title>
+    <style>
+        body {
+            margin: 0;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Segoe UI, system-ui, sans-serif;
+        }
+        #wrap {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            box-shadow: 0 0 0 2px #fff, 0 8px 32px rgba(0,0,0,0.5);
+        }
+        #gameCanvas {
+            display: block;
+            width: 800px;
+            height: 600px;
+        }
+        #hudCanvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 800px;
+            height: 600px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <canvas id="hudCanvas" width="800" height="600"></canvas>
+    </div>
+    <script src="js/webgl.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>

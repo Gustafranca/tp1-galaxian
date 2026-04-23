@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rio Galaxian — MODO HARDCORE (WebGL)</title>
+    <style>
+        body {
+            margin: 0;
+            background: #111;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #game-container {
+            position: relative;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
+            border: 3px solid #7a2a2a;
+        }
+        canvas {
+            display: block;
+        }
+        #hudCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <canvas id="hudCanvas" width="800" height="600"></canvas>
+    </div>
+    <script src="js/webgl.js"></script>
+    <script src="js/hardcore.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>

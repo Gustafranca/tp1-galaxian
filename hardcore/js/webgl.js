@@ -2,7 +2,7 @@
  * Utilitários WebGL 2D: shaders texturados, mat3 em espaço de pixels (origem no canto superior esquerdo)
  * e desenho de sprites como quads reutilizáveis.
  */
-(function (global) {
+(function(global) {
   'use strict';
 
   const vertexShaderSource = `
@@ -21,10 +21,14 @@
     precision mediump float;
     uniform sampler2D u_texture;
     uniform vec4 u_tint;
+    uniform float u_time;
     varying vec2 v_texCoord;
     void main() {
       vec4 c = texture2D(u_texture, v_texCoord);
-      gl_FragColor = c * u_tint;
+      vec4 color = c * u_tint;
+      // Efeito de scanline sutil
+      float scanline = sin(v_texCoord.y * 800.0 + u_time * 5.0) * 0.04;
+      gl_FragColor = vec4(color.rgb - scanline, color.a);
     }
   `;
 
@@ -122,6 +126,7 @@
     const matrixLoc = gl.getUniformLocation(program, 'u_matrix');
     const textureLoc = gl.getUniformLocation(program, 'u_texture');
     const tintLoc = gl.getUniformLocation(program, 'u_tint');
+    const timeLoc = gl.getUniformLocation(program, 'u_time');
 
     const positionBuffer = gl.createBuffer();
     const texCoordBuffer = gl.createBuffer();
@@ -144,7 +149,11 @@
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    const projCache = { w: 0, h: 0, m: null };
+    const projCache = {
+      w: 0,
+      h: 0,
+      m: null
+    };
 
     function getProjection(w, h) {
       if (projCache.w !== w || projCache.h !== h) {
@@ -158,7 +167,7 @@
     /**
      * Desenha um sprite: textura completa no retângulo (x,y) com tamanho (dw, dh) em pixels.
      */
-    function drawSprite(texture, x, y, dw, dh, tintR, tintG, tintB, tintA) {
+    function drawSprite(texture, x, y, dw, dh, tintR, tintG, tintB, tintA, time) {
       const w = gl.canvas.width;
       const h = gl.canvas.height;
       const P = getProjection(w, h);
@@ -169,6 +178,7 @@
       gl.useProgram(program);
       gl.uniformMatrix3fv(matrixLoc, false, matrix);
       gl.uniform1i(textureLoc, 0);
+      gl.uniform1f(timeLoc, time || 0);
       gl.uniform4f(
         tintLoc,
         tintR != null ? tintR : 1,
@@ -203,6 +213,11 @@
     createShader,
     createSpriteRenderer,
     createTextureFromSource,
-    m3: { multiply, translation, scaling, projection },
+    m3: {
+      multiply,
+      translation,
+      scaling,
+      projection
+    },
   };
 })(typeof window !== 'undefined' ? window : globalThis);
