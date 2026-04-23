@@ -7,25 +7,25 @@ Gustavo França de Almeida
 
 ## Itens adcionais
  ## Texturas animadas
- Jogador parado ou andando
- Inimigos andando
- Inimigos explodindo
- Lingua do sapo
- Fundo animado
- Efeito de partículas
+ Jogador parado ou andando \
+ Inimigos andando \
+ Inimigos explodindo \
+ Lingua do sapo \
+ Fundo animado \
+ Efeito de partículas 
  ### Relativas ao jogo
- Rasante 
- Inimigos diferentes
- Pontuação (Highscore)
+ Rasante \
+ Inimigos diferentes \
+ Pontuação (Highscore) 
  ### Relativas à nave
- Vidas extras
+ Vidas extras 
  ### Outras funcionalidades
- Modo hardcore
- Telas extras
- Implementação criativa
+ Modo hardcore \
+ Telas extras \
+ Implementação criativa 
 
 ## Apresntação do jogo
-https://youtu.be/7lvLY8BJv1E
+https://youtu.be/7lvLY8BJv1E \
 (atualizações no modo hardcore foram feitas após a gravação (as moscas atiram ainda mais rápido))
 ## codigo basier usado
 https://gist.github.com/EncodeTheCode/b8f2a0314e180b37f5e9ccc7855d4309
